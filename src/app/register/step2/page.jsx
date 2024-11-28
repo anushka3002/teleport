@@ -72,22 +72,9 @@ const Step2 = () => {
   }, [getValues]);
 
   const onSubmit = async (data) => {
-    // try {
-    //   const response = await fetch("/api/register/account", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(data),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error("Failed to save account details.");
-    //   }
-
+      const currentData = getValues();
+      localStorage.setItem("accountFormData", JSON.stringify(currentData));
       router.push("/register/step3");
-    // } catch (error) {
-    //   console.error(error.message);
-    //   alert("An error occurred while saving account details.");
-    // }
   };
 
   return (
@@ -153,6 +140,7 @@ const Step2 = () => {
         </div>
 
         <div className="flex justify-center mt-6">
+        <div onClick={()=>router.back()} className="cursor-pointer bg-blue-500 text-white px-6 py-2 rounded-lg mr-4">Back</div>
           <button
             type="submit"
             className="bg-blue-500 text-white px-6 py-2 rounded-lg"

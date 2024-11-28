@@ -3,9 +3,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ProgressBar from "@/components/progressBar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { formData } from "@/app/api/register/route";
+import { toast } from "react-toastify";
 
 const schema = z.object({
   notifications: z
@@ -33,6 +36,9 @@ const schema = z.object({
 
 const Step3 = () => {
   const router = useRouter();
+  const dispatch  = useDispatch()
+  const [completeForm, setCompleteForm] = useState(false)
+  const notify = () => toast.success("Form submitted successfully!");
 
   const {
     register,
@@ -72,27 +78,25 @@ const Step3 = () => {
   }, [getValues]);
 
   const onSubmit = async (data) => {
-    // try {
-    //   const response = await fetch("/api/register/account", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(data),
-    //   });
+    try {
+      const currentData = getValues();
+      localStorage.setItem("preferencesData", JSON.stringify(currentData));
 
-    //   if (!response.ok) {
-    //     throw new Error("Failed to save account details.");
-    //   }
+      await Promise.all([
+        dispatch(formData()),
+      ]);
 
-    //   router.push("/register/step3");
-    // } catch (error) {
-    //   console.error(error.message);
-    //   alert("An error occurred while saving account details.");
-    // }
+      router.push('/profile');
+      notify()
+
+    } catch (error) {
+      console.error('Error during form submission:', error);
+    }
   };
 
   return (
     <div className="p-4">
-      <ProgressBar currentStep={3} />
+      <ProgressBar currentStep={completeForm ? 4 : 3} />
       <form
         className="border w-[45%] mx-auto p-6 rounded-lg mt-4 bg-white shadow"
         onSubmit={handleSubmit(onSubmit)}
@@ -156,7 +160,7 @@ const Step3 = () => {
 
         {/* Language Preference */}
         <div className="mt-4">
-          <label className="block text-sm font-medium mb-1">Language</label>
+          <label className="block text-sm font-medium mb-1">Additional Language</label>
           <select
             {...register("language")}
             className="border p-2 rounded w-full"
@@ -176,8 +180,8 @@ const Step3 = () => {
           )}
         </div>
 
-        {/* Submit Button */}
         <div className="flex justify-center mt-6">
+        <div onClick={()=>router.back()} className="cursor-pointer bg-blue-500 text-white px-6 py-2 rounded-lg mr-4">Back</div>
           <button
             type="submit"
             className="bg-blue-500 text-white px-6 py-2 rounded-lg"

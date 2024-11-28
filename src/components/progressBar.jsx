@@ -34,13 +34,15 @@ const ProgressBar = ({ currentStep }) => {
       </div>
 
       {/* Progress Bar */}
-      <div className="relative h-2 bg-gray-200 rounded">
-        <div
-          className="absolute h-2 bg-blue-500 rounded transition-all duration-300"
-          style={{
-            width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
-          }}
-        ></div>
+      <div className="flex justify-between">
+        {steps.map((step) => (
+          <div
+            key={step.id}
+            className={`h-2 flex-1 mx-1 ${
+              step.id < currentStep || step.id == 4 ? "bg-blue-500" : "bg-gray-200"
+            } rounded`}
+          ></div>
+        ))}
       </div>
     </div>
   );

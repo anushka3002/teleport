@@ -42,7 +42,7 @@ const schema = z.object({
 
 const Step1 = () => {
 
-  const { getSingleFormData } = useSelector(state => state.getSingleFormData)
+  const { getSingleFormData,loading } = useSelector(state => state.getSingleFormData)
   const dispatch = useDispatch()
   const router = useRouter();
 
@@ -208,11 +208,10 @@ const Step1 = () => {
             type="submit"
             className="bg-blue-500 text-white px-6 py-2 rounded-lg"
           >
-            Next
+            {loading ? 'Loading..' : 'Next'}
           </button>
         </div>
       </form>
-
     </div>
   );
 };

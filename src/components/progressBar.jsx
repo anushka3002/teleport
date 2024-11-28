@@ -2,8 +2,8 @@ import React from "react";
 
 const ProgressBar = ({ currentStep }) => {
   const steps = [
-    { label: "Personal Information", id: 1 },
-    { label: "Account Details", id: 2 },
+    { label: "Personal details", id: 1 },
+    { label: "Account details", id: 2 },
     { label: "Preferences", id: 3 },
   ];
 
@@ -12,7 +12,7 @@ const ProgressBar = ({ currentStep }) => {
       {/* Step Labels */}
       <div className="flex justify-between text-sm font-medium mb-4">
         {steps.map((step) => (
-          <div key={step.id} className="flex flex-col items-center">
+          <div key={step.id} className="flex flex-col items-center sm:mx-0 mx-2">
             <div
               className={`flex items-center justify-center w-8 h-8 rounded-full ${
                 step.id <= currentStep
@@ -23,7 +23,7 @@ const ProgressBar = ({ currentStep }) => {
               {step.id}
             </div>
             <span
-              className={`text-xs mt-2 ${
+              className={`text-xs mt-2 hidden sm:block ${
                 step.id === currentStep ? "text-blue-600" : "text-gray-400"
               }`}
             >

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProgressBar from "@/components/progressBar";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formData } from "@/app/api/register/route";
 import { toast } from "react-toastify";
 
@@ -37,6 +37,7 @@ const schema = z.object({
 const Step3 = () => {
   const router = useRouter();
   const dispatch  = useDispatch()
+  const {loading} = useSelector(state => state.formData)
   const [completeForm, setCompleteForm] = useState(false)
   const notify = (msg) => msg.includes('wrong') ? toast.error(msg) : toast.success(msg);
 
@@ -85,10 +86,7 @@ const Step3 = () => {
       await Promise.all([
         dispatch(formData(router, notify)),
       ]);
-
-      // router.push('/profile');
-      // notify()
-
+      setCompleteForm(true)
     } catch (error) {
       console.error('Error during form submission:', error);
     }
@@ -186,7 +184,7 @@ const Step3 = () => {
             type="submit"
             className="bg-blue-500 text-white px-6 py-2 rounded-lg"
           >
-            Submit
+            {loading ? 'Loading..': 'Submit'}
           </button>
         </div>
       </form>

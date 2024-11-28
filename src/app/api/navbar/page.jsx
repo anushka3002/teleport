@@ -10,6 +10,7 @@ import { deleteSingleFormDataAction, getSingleFormDataAction } from '../register
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { getSingleFormData } = useSelector(state => state.getSingleFormData)
+  const {loading} = useSelector(state => state.deleteFormData)
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -41,20 +42,8 @@ const Navbar = () => {
       <div className="flex my-auto">
         <span className='my-auto mr-4 font-bold'>{getSingleFormData?.data?.personalDetails?.firstName}</span>
           <button onClick={handleDeleteAccount} className="block bg-red-500 rounded-lg px-4 py-2 text-white-600 transition-all duration-300 ease-in-out font-bold hover:bg-red-700 w-full text-left">
-            Delete Account
+           {loading ? 'Deleting..' : 'Delete Account'} 
           </button>
-
-        {dropdownOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md text-black">
-            <ul>
-              <li>
-                <button onClick={handleDeleteAccount} className="block px-4 py-2 text-red-500 hover:bg-gray-200 w-full text-left">
-                  Delete Account
-                </button>
-              </li>
-            </ul>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -42,7 +42,7 @@ const schema = z.object({
 
 const Step1 = () => {
 
-  const { getSingleFormData,loading } = useSelector(state => state.getSingleFormData)
+  const { loading } = useSelector(state => state.getSingleFormData)
   const dispatch = useDispatch()
   const router = useRouter();
 

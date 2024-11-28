@@ -1,14 +1,11 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSingleFormDataAction, getSingleFormDataAction } from '../register/route';
 
 const Navbar = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { getSingleFormData } = useSelector(state => state.getSingleFormData)
   const {loading} = useSelector(state => state.deleteFormData)
   const dispatch = useDispatch()

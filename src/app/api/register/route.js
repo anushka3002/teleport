@@ -25,6 +25,7 @@ export const formData = (router, notify) => async (dispatch) =>{
       })
       router.push('/profile')
       notify('Form submitted successfully')
+      localStorage.setItem("authenticated",true)
   }catch(error){
       dispatch({
           type: CREATE_FORM_DATA_FAIL,
@@ -82,6 +83,7 @@ export const getFormDataAction = () => async (dispatch) =>{
             type: DELETE_FORM_DATA_SUCCESS,
             payload: data
         })
+        localStorage.removeItem('authenticated')
     }catch(error){
         dispatch({
             type: DELETE_FORM_DATA_FAIL,

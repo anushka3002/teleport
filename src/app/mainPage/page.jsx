@@ -1,20 +1,17 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Profile from "../profile/page";
 import Step1 from "../register/step1/page";
-import { useRouter } from "next/navigation";
 
 
 const MainPage = () => {
-  const authenticated = localStorage.getItem("authenticated");
-  const router = useRouter()
+  const [authenticated, setAuthenticated] = useState(false);
 
-  useEffect(()=>{
-    if(authenticated){
-        router.push('/profile')
-    }
-  },[authenticated])
+  useEffect(() => {
+    const authStatus = localStorage.getItem("authenticated");
+    setAuthenticated(authStatus);
+  }, []);
 
   return (
     <div>

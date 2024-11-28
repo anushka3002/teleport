@@ -14,7 +14,7 @@ const Navbar = () => {
   const router = useRouter()
 
   useEffect(() => {
-    dispatch(getSingleFormDataAction())
+    dispatch(getSingleFormDataAction(''))
   }, [])
 
   const handleDeleteAccount = async () => {

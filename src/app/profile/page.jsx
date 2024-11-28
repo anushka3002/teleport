@@ -17,7 +17,7 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleFormDataAction());
+    dispatch(getSingleFormDataAction(''));
   }, []);
 
   useEffect(() => {

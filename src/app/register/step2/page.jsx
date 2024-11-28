@@ -81,7 +81,7 @@ const Step2 = () => {
     <div className="p-4">
       <ProgressBar currentStep={2} />
       <form
-        className="border w-[45%] mx-auto p-6 rounded-lg mt-4 bg-white shadow"
+        className="border w-[96%] md:w-[80%] lg:w-[45%] mx-auto p-6 rounded-lg mt-4 bg-white shadow"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="mt-4">

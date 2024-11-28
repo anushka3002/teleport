@@ -38,7 +38,7 @@ const Step3 = () => {
   const router = useRouter();
   const dispatch  = useDispatch()
   const [completeForm, setCompleteForm] = useState(false)
-  const notify = () => toast.success("Form submitted successfully!");
+  const notify = (msg) => msg.includes('wrong') ? toast.error(msg) : toast.success(msg);
 
   const {
     register,
@@ -83,11 +83,11 @@ const Step3 = () => {
       localStorage.setItem("preferencesData", JSON.stringify(currentData));
 
       await Promise.all([
-        dispatch(formData()),
+        dispatch(formData(router, notify)),
       ]);
 
-      router.push('/profile');
-      notify()
+      // router.push('/profile');
+      // notify()
 
     } catch (error) {
       console.error('Error during form submission:', error);
@@ -98,7 +98,7 @@ const Step3 = () => {
     <div className="p-4">
       <ProgressBar currentStep={completeForm ? 4 : 3} />
       <form
-        className="border w-[45%] mx-auto p-6 rounded-lg mt-4 bg-white shadow"
+        className="border w-[96%] md:w-[80%] lg:w-[45%] mx-auto p-6 rounded-lg mt-4 bg-white shadow"
         onSubmit={handleSubmit(onSubmit)}
       >
         {/* Notification Preferences */}

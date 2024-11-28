@@ -1,7 +1,7 @@
 import { CREATE_FORM_DATA, CREATE_FORM_DATA_FAIL, CREATE_FORM_DATA_SUCCESS, DELETE_FORM_DATA, DELETE_FORM_DATA_FAIL, DELETE_FORM_DATA_SUCCESS, GET_FORM_DATA, GET_FORM_DATA_FAIL, GET_FORM_DATA_SUCCESS, GET_SINGLE_FORM_DATA, GET_SINGLE_FORM_DATA_FAIL, GET_SINGLE_FORM_DATA_SUCCESS, UPDATE_FORM_DATA, UPDATE_FORM_DATA_FAIL, UPDATE_FORM_DATA_SUCCESS } from "@/redux/constant"
 import axios from "axios"
 
-export const formData = () => async (dispatch) =>{
+export const formData = (router, notify) => async (dispatch) =>{
   try{
       dispatch({
           type: CREATE_FORM_DATA
@@ -23,11 +23,14 @@ export const formData = () => async (dispatch) =>{
           type: CREATE_FORM_DATA_SUCCESS,
           payload: data
       })
+      router.push('/profile')
+      notify('Form submitted successfully')
   }catch(error){
       dispatch({
           type: CREATE_FORM_DATA_FAIL,
           payload: error
       })
+      notify('Something went wrong. Please fill required fields')
   }
 }
 
@@ -49,17 +52,18 @@ export const getFormDataAction = () => async (dispatch) =>{
     }
   }
 
-  export const getSingleFormDataAction = () => async (dispatch) =>{
+  export const getSingleFormDataAction = (email) => async (dispatch) =>{
     try{
         dispatch({
             type: GET_SINGLE_FORM_DATA
         })
         const emailId = JSON.parse(localStorage.getItem('emailId'))
-        const data = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/register/${emailId}`)
+        const data = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/register/${email ? email : emailId}`)
         dispatch({
             type: GET_SINGLE_FORM_DATA_SUCCESS,
             payload: data
         })
+        return data;
     }catch(error){
         dispatch({
             type: GET_SINGLE_FORM_DATA_FAIL,

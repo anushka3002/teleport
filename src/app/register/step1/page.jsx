@@ -6,6 +6,9 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import ProgressBar from "@/components/progressBar";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getSingleFormDataAction } from "@/app/api/register/route";
+import { toast } from "react-toastify";
 
 const schema = z.object({
   firstName: z
@@ -17,8 +20,8 @@ const schema = z.object({
     .min(1, "Last name is required")
     .max(50, "Last name cannot exceed 50 characters"),
   email: z.string()
-  .min(1, "Email is required")
-  .email("Invalid email address"),
+    .min(1, "Email is required")
+    .email("Invalid email address"),
   address: z
     .string()
     .min(1, "Street address is required")
@@ -39,6 +42,8 @@ const schema = z.object({
 
 const Step1 = () => {
 
+  const { getSingleFormData } = useSelector(state => state.getSingleFormData)
+  const dispatch = useDispatch()
   const router = useRouter();
 
   const {
@@ -77,24 +82,30 @@ const Step1 = () => {
       localStorage.setItem("personalFormData", JSON.stringify(currentData));
     };
 
-    window.addEventListener("beforeunload", saveData); 
+    window.addEventListener("beforeunload", saveData);
     return () => {
       window.removeEventListener("beforeunload", saveData);
     };
   }, [getValues]);
+  const notifyF = () => toast.error('Email already exists')
 
   const onSubmit = async (data) => {
     const currentData = getValues();
-    localStorage.setItem("emailId", JSON.stringify(currentData.email));
+    const response = await dispatch(getSingleFormDataAction(currentData.email));
+    if (response?.data?.emailId == currentData.email) {
+      notifyF()
+    } else {
+      localStorage.setItem("emailId", JSON.stringify(currentData.email));
       localStorage.setItem("personalFormData", JSON.stringify(currentData));
       router.push("/register/step2");
+    }
   };
 
   return (
     <div className="p-4">
       <ProgressBar currentStep={1} />
       <form
-        className="border w-[45%] mx-auto p-6 rounded-lg mt-4 bg-white shadow"
+        className="border w-[96%] md:w-[80%] lg:w-[45%] mx-auto p-6 rounded-lg mt-4 bg-white shadow"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="grid grid-cols-2 gap-4">
@@ -167,7 +178,7 @@ const Step1 = () => {
 
           {/* State */}
           <div>
-            <label className="block text-sm font-medium mb-1">State / Province</label>
+            <label className="block text-sm font-medium mb-1">State</label>
             <input
               {...register("state")}
               className="border p-2 rounded w-full"
@@ -180,11 +191,11 @@ const Step1 = () => {
 
           {/* Postal code */}
           <div>
-            <label className="block text-sm font-medium mb-1">ZIP / Postal code</label>
+            <label className="block text-sm font-medium mb-1">Postal code</label>
             <input
               {...register("postalCode")}
               className="border p-2 rounded w-full"
-              placeholder="ZIP / Postal code"
+              placeholder="Postal code"
             />
             {errors.postalCode && (
               <p className="text-red-500 text-sm">{errors.postalCode.message}</p>

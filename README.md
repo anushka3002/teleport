@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+To install the code to the Code editor use this command: git clone https://github.com/anushka3002/teleport
+Next run this command: npm i
 
-## Getting Started
+Next run: npm run dev
 
-First, run the development server:
+Deployed link: https://teleport-gold.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<!-- About the web app -->
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. This web app is built to enter form data for different form types:
+Personal details
+Account details
+Preferences
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+2. After entering the form data, the value is stored in the API and user is navigated to profile
+page where all the form details are available
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. User can also edit the details specifically
 
-## Learn More
+4. The email which is registered once can not be registered again unless its deleted 
+by the delete button available in the web app
 
-To learn more about Next.js, take a look at the following resources:
+5. There are validations in the form using zod library 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+6. This is a responsive web app which can be used on all the screen sizes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+<!-- Additional details -->
 
-## Deploy on Vercel
+1. I have created my own APIs in the backened using node.js and the data is stored in mongoDb.
+2. I have created GET, PUT, POST, DELETE req to handle the form data.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

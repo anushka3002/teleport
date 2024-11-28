@@ -1,5 +1,8 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import { Provider } from "react-redux";
+import store from "../redux/store";
+import ClientWrapper from "./clientWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,7 +26,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ClientWrapper>{children}</ClientWrapper>
       </body>
     </html>
   );

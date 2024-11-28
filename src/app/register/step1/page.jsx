@@ -16,9 +16,10 @@ const schema = z.object({
     .string()
     .min(1, "Last name is required")
     .max(50, "Last name cannot exceed 50 characters"),
-  email: z.string().email("Invalid email address"),
-  country: z.string().min(1, "Country is required"),
-  streetAddress: z
+  email: z.string()
+  .min(1, "Email is required")
+  .email("Invalid email address"),
+  address: z
     .string()
     .min(1, "Street address is required")
     .max(100, "Street address cannot exceed 100 characters"),
@@ -30,12 +31,14 @@ const schema = z.object({
     .string()
     .min(1, "State / Province is required")
     .max(50, "State / Province cannot exceed 50 characters"),
-  zip: z
+  postalCode: z
     .string()
-    .regex(/^\d{5}(-\d{4})?$/, "Invalid ZIP / Postal code"),
+    .min(1, "Postal code is required")
+    .regex(/^\d{6}$/, "Invalid Postal code"),
 });
 
 const Step1 = () => {
+
   const router = useRouter();
 
   const {
@@ -50,11 +53,10 @@ const Step1 = () => {
       firstName: "",
       lastName: "",
       email: "",
-      country: "United States",
-      streetAddress: "",
+      address: "",
       city: "",
       state: "",
-      zip: "",
+      postalCode: "",
     },
   });
 
@@ -71,33 +73,21 @@ const Step1 = () => {
   useEffect(() => {
     const saveData = () => {
       const currentData = getValues();
+      localStorage.setItem("emailId", JSON.stringify(currentData.email));
       localStorage.setItem("personalFormData", JSON.stringify(currentData));
     };
 
-    window.addEventListener("beforeunload", saveData); // Save on tab close
+    window.addEventListener("beforeunload", saveData); 
     return () => {
       window.removeEventListener("beforeunload", saveData);
     };
   }, [getValues]);
 
   const onSubmit = async (data) => {
-    console.log(data, 'data')
-    // try {
-    //   const response = await fetch("https://airbnb-backend-eight-omega.vercel.app/api/register/personal", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(data),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error("Failed to save personal details.");
-    //   }
-
+    const currentData = getValues();
+    localStorage.setItem("emailId", JSON.stringify(currentData.email));
+      localStorage.setItem("personalFormData", JSON.stringify(currentData));
       router.push("/register/step2");
-    // } catch (error) {
-    //   console.error(error.message);
-    //   alert("An error occurred while saving personal details.");
-    // }
   };
 
   return (
@@ -148,38 +138,19 @@ const Step1 = () => {
           )}
         </div>
 
-        {/* Country Dropdown */}
-        <div className="mt-4">
-          <label className="block text-sm font-medium mb-1">Country</label>
-          <select
-            {...register("country")}
-            className="border p-2 rounded w-full"
-            defaultValue="United States"
-          >
-            <option value="United States">United States</option>
-            <option value="Canada">Canada</option>
-            <option value="United Kingdom">United Kingdom</option>
-            {/* Add more countries as needed */}
-          </select>
-          {errors.country && (
-            <p className="text-red-500 text-sm">{errors.country.message}</p>
-          )}
-        </div>
-
         {/* Street Address */}
         <div className="mt-4">
           <label className="block text-sm font-medium mb-1">Street address</label>
           <input
-            {...register("streetAddress")}
+            {...register("address")}
             className="border p-2 rounded w-full"
             placeholder="Street address"
           />
-          {errors.streetAddress && (
-            <p className="text-red-500 text-sm">{errors.streetAddress.message}</p>
+          {errors.address && (
+            <p className="text-red-500 text-sm">{errors.address.message}</p>
           )}
         </div>
 
-        {/* City, State, and ZIP */}
         <div className="grid grid-cols-3 gap-4 mt-4">
           {/* City */}
           <div>
@@ -207,21 +178,20 @@ const Step1 = () => {
             )}
           </div>
 
-          {/* ZIP */}
+          {/* Postal code */}
           <div>
             <label className="block text-sm font-medium mb-1">ZIP / Postal code</label>
             <input
-              {...register("zip")}
+              {...register("postalCode")}
               className="border p-2 rounded w-full"
               placeholder="ZIP / Postal code"
             />
-            {errors.zip && (
-              <p className="text-red-500 text-sm">{errors.zip.message}</p>
+            {errors.postalCode && (
+              <p className="text-red-500 text-sm">{errors.postalCode.message}</p>
             )}
           </div>
         </div>
 
-        {/* Submit Button */}
         <div className="flex justify-center mt-6">
           <button
             type="submit"
